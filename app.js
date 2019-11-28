@@ -1,20 +1,32 @@
-window.onload = buttonPressed;
+$(document).ready(function buttonPressed() {
+    url_base = 'http://127.0.0.1:8888/api/'
+    $("#submit").click(function() {
+        register();
+    });
+});
 
-function buttonPressed() {
-    document.getElementById("submit").onclick = poster;
+function get_data() {
+    var mail = $("#name").val();
+    var mail = $("#email").val();
+    var mail = $("#password").val();
+
+    var data = {
+        "name": obtainedName, 
+        "email": mail, 
+        "password": pass
+    };
+
+    return data;
 }
+function register() {
+    var data = get_data;
 
-function poster() {
-    var obtainedName = document.getElementById("name").value;
-    var mail = document.getElementById("email").value;
-    var pass = document.getElementById("password").value;
-    var obj = {"name": obtainedName, "email": mail, "password": pass};
     $.ajax({
         type: "POST", 
-        url: "http://localhost:8888/library/public/index.php/api/users",
-        data: obj,
+        url: url_base + 'users',
+        data: data,
         success: function (response) {
-            $("$resultado").html(response);
+            console.log(response);
         }
     });
 }
