@@ -1,30 +1,50 @@
 $(document).ready(function buttonPressed() {
-    url_base = 'http://127.0.0.1:8888/api/'
+    url_base = 'http://localhost:8888/api/'
+    
     $("#submit").click(function() {
         register();
+    });
+    
+    $("#obtain").click(function() {
+        books();
     });
 });
 
 function get_data() {
-    var mail = $("#name").val();
+    var name = $("#name").val();
     var mail = $("#email").val();
-    var mail = $("#password").val();
+    var pass = $("#password").val();
 
     var data = {
-        "name": obtainedName, 
+        "name": name, 
         "email": mail, 
         "password": pass
     };
 
     return data;
 }
+
 function register() {
-    var data = get_data;
+    var data = get_data();
 
     $.ajax({
         type: "POST", 
-        url: url_base + 'users',
+        url: url_base + 'registry',
         data: data,
+        success: function (response) {
+            console.log(response);
+            sessionStorage.setItem('token', response.token);
+        }
+    });
+}
+
+function books() {
+    $.ajax({
+        type: "POST", 
+        url: url_base + 'books',
+        headers:{
+            'Authorization': sessionStorage.getItem('token')
+        },
         success: function (response) {
             console.log(response);
         }
